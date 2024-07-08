@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cat with a gun
+* source:	https://sketchfab.com/3d-models/cat-with-a-gun-70df1c27fc424871b8fce0925e1d4429
+* author:	Bluenoseddonkey (https://sketchfab.com/Bluenoseddonkey)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cat with a gun" (https://sketchfab.com/3d-models/cat-with-a-gun-70df1c27fc424871b8fce0925e1d4429) by Bluenoseddonkey (https://sketchfab.com/Bluenoseddonkey) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
