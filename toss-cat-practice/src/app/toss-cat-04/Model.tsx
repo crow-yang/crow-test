@@ -75,7 +75,7 @@ export function Model(props: any) {
   return (
     <animated.group ref={group} {...props} dispose={null} onClick={onClickCat} scale={springs.scale} rotation-y={springs.rotation}>
       <group name="Sketchfab_Scene">
-        <primitive object={nodes._rootJoint}/>
+        <primitive object={nodes._rootJoint} rotation-y={-Math.PI/6}/>
         <skinnedMesh name="Object_27" geometry={nodes.Object_27.geometry} material={materials.Body} skeleton={nodes.Object_27.skeleton} scale={0.625} />
         <skinnedMesh name="Object_29" geometry={nodes.Object_29.geometry} material={materials.Eyes} skeleton={nodes.Object_29.skeleton} scale={0.625} />
         <skinnedMesh name="Object_33" geometry={nodes.Object_33.geometry} material={materials.Ears_Cat} skeleton={nodes.Object_33.skeleton} scale={0.625} />
