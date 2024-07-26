@@ -45,13 +45,13 @@ export function Model(props: JSX.IntrinsicElements['group']) {
   const [active, setActive] = React.useState(false)
 
   const springs = useSpring({ 
-    from: { rotation: 0, scale: 4 },
+    from: { rotation: 0, scale: 5 },
     to: async (next) => {
       if (!active) return;
-      await next({ rotation: Math.PI / 20, scale: 3.5});
-      await next({ rotation: -Math.PI / 30, scale: 3.8});
-      await next({ rotation: Math.PI / 50, scale: 3.9});
-      await next({ rotation: 0, scale: 4});
+      await next({ rotation: Math.PI / 20, scale: 4.5});
+      await next({ rotation: -Math.PI / 30, scale: 4.8});
+      await next({ rotation: Math.PI / 50, scale: 4.9});
+      await next({ rotation: 0, scale: 5});
       setActive(false);
     },
     config: {

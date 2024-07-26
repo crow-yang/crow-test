@@ -48,7 +48,7 @@ const Model = () => {
       document.addEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, []);
+  }, [scene]);
 
   useFrame(() => {
     scene.rotation.y = -(scroll.offset - 0.5) * 2 * Math.PI;

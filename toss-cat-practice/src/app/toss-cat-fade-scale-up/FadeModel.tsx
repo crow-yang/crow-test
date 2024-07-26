@@ -9,10 +9,12 @@ Title: Little Cat
 */
 
 import * as THREE from 'three'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
-import { useInterval } from './useInterval'
+import { useSpring, animated } from '@react-spring/three'
+import { useFrame } from '@react-three/fiber'
+import { MeshStandardMaterial } from 'three'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -37,32 +39,60 @@ type ActionName = '01_TPose_LittleFriends' | '02_Idle_LittleFriends' | '03_Walk_
 interface GLTFAction extends THREE.AnimationClip {
   name: ActionName
 }
-type ContextType = Record<string, React.ForwardRefExoticComponent<JSX.IntrinsicElements['skinnedMesh'] | JSX.IntrinsicElements['bone']>>
 
-const delay = (time: number) => new Promise((r) => setTimeout(r, time));
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-export function Model(props: JSX.IntrinsicElements['group']) {
+export function FadeModel(props: any) {
   const group = useRef<THREE.Group>(null)
-  const { nodes, materials, animations } = useGLTF('cat/scene-transformed.glb') as GLTFResult
-  const { actions } = useAnimations(animations, group);
+  const { nodes, materials } = useGLTF('cat/scene-transformed.glb') as GLTFResult;
 
-  const anim = async () => {
-    const action = actions['06_Greeting_LittleFriends']
-    action?.setLoop(THREE.LoopOnce, 1)?.play()?.reset();
-  };
+  const springs = useSpring({ 
+    from: { scale: 4 },
+    to: async (next) => {
+      if (!props.isAnim) return;
+      await next({ scale: 5 });
+    },
+    config: {
+      duration: 300,
+    },
+    reset: true,
+  });
+
+  const opacityDown = () => {
+    if (!props.isAnim) return;
+    const mkeys= Object.keys(materials) as (keyof typeof materials)[];
+    mkeys.forEach((key) => {
+      materials[key].opacity -= 0.02;
+    });
+  }
+  useEffect(() => {
+    if (props.isAnim) {
+      const mkeys= Object.keys(materials) as (keyof typeof materials)[];
+      mkeys.forEach((key) => {
+        materials[key].opacity = 1;
+      });
+    }
+  }, [props.isAnim])
+  useEffect(() => {
+    const mkeys= Object.keys(materials) as (keyof typeof materials)[];
+    mkeys.forEach((key) => {
+      materials[key].transparent = true;
+    });
+  } ,[materials])
+  useFrame(opacityDown);
 
 
   return (
-    <group ref={group} {...props} dispose={null}>
-      <group name="Sketchfab_Scene" onClick={anim}>
-        <primitive object={nodes._rootJoint} scale={5}/>
+    <animated.group ref={group} {...props} dispose={null} scale={springs.scale}>
+      <group name="Sketchfab_Scene2">
+        <primitive object={nodes._rootJoint} rotation-y={-Math.PI/6} />
         <skinnedMesh name="Object_27" geometry={nodes.Object_27.geometry} material={materials.Body} skeleton={nodes.Object_27.skeleton} scale={0.625} />
         <skinnedMesh name="Object_29" geometry={nodes.Object_29.geometry} material={materials.Eyes} skeleton={nodes.Object_29.skeleton} scale={0.625} />
         <skinnedMesh name="Object_33" geometry={nodes.Object_33.geometry} material={materials.Ears_Cat} skeleton={nodes.Object_33.skeleton} scale={0.625} />
         <skinnedMesh name="Object_31" geometry={nodes.Object_31.geometry} material={materials.Eyebrows} skeleton={nodes.Object_31.skeleton} morphTargetDictionary={nodes.Object_31.morphTargetDictionary} morphTargetInfluences={nodes.Object_31.morphTargetInfluences} scale={0.625} />
         <skinnedMesh name="Object_35" geometry={nodes.Object_35.geometry} material={materials.EyelidsTail_Cat} skeleton={nodes.Object_35.skeleton} morphTargetDictionary={nodes.Object_35.morphTargetDictionary} morphTargetInfluences={nodes.Object_35.morphTargetInfluences} scale={0.625} />
       </group>
-    </group>
+    </animated.group>
   )
 }
 

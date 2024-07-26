@@ -1,19 +1,13 @@
 "use client";
 
-import "./style.css";
-
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useState } from "react";
 import { Model } from "./Model";
 
 export default function TossCat() {
-  const [isInit, setIsInit]= useState(false);
-  useEffect(() => {
-    setTimeout(() => setIsInit(true), 500);
-  }, []);
   return (
-    <main className={`w-full h-screen flex items-center justify-center ${isInit ? "visible" : "invisible"}`}>
-      <Canvas>
+    <main className={`w-full h-full`}>
+      <Canvas className="w-full" style={{height: "800px"}}>
         <Suspense fallback={null}>
           <ambientLight />
           <Model />
